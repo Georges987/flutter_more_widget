@@ -273,7 +273,43 @@ class _HomeState extends State<Home> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _display ? const Card() : const SizedBox(),
+                    _display
+                        ? Card(
+                            child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                  leading: const Icon(Icons.person),
+                                  title: RichText(
+                                      text: TextSpan(children: [
+                                    const TextSpan(
+                                      text: "Je m'appelle",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 18),
+                                    ),
+                                    TextSpan(
+                                        text: _name,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ))
+                                  ])),
+                                  subtitle: const Text("Voici mes passions")),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                      onPressed: () {},
+                                      child: const Text("Ajouter")),
+                                  const SizedBox(width: 10),
+                                  TextButton(
+                                      onPressed: () {},
+                                      child: const Text("Boutton inutile"))
+                                ],
+                              )
+                            ],
+                          ))
+                        : const SizedBox(),
                   ],
                 ),
               ],
