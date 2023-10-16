@@ -31,8 +31,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Widget spacer = const SizedBox(height: 18);
-
   int _selectedIndex = 0;
   final _nameConttroller = TextEditingController();
   String? _sexe;
@@ -106,7 +104,171 @@ class _HomeState extends State<Home> {
                   width: 125,
                 ),
                 const SizedBox(height: 20),
-                Form(child: Column()),
+                Form(
+                    key: _formkey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          keyboardType: TextInputType.name,
+                          controller: _nameConttroller,
+                          decoration: const InputDecoration(
+                            labelText: "Nom et prénom *",
+                            hintText: "Entrez votre nom",
+                            icon: Icon(Icons.person),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Veuillez entrer votre nom";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: null,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            labelText: "Mot de passe*",
+                            hintText: "Définir votre mot de passe",
+                            icon: Icon(Icons.lock),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Veuillez entrer votre password";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        DropdownButtonFormField<String>(
+                          decoration: const InputDecoration(
+                            labelText: "Sexe*",
+                            hintText: "Sélectionner votre sexe",
+                            icon: Icon(Icons.transgender),
+                          ),
+                          value: _sexe,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _sexe = newValue!;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return "Veuillez sélectionner votre sexe";
+                            }
+                            return null;
+                          },
+                          items: <String>['Homme', 'Femme', 'Autre']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value,
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 18)),
+                            );
+                          }).toList(),
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Quels sont vos passe-temps ?",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: _football,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          _football = value;
+                                        });
+                                      }),
+                                  const Text("Football"),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: _music,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          _music = value;
+                                        });
+                                      }),
+                                  const Text("Music"),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: _mangas,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          _mangas = value;
+                                        });
+                                      }),
+                                  const Text("Mangas"),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          if (_formkey.currentState!.validate()) {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text("Alert Dialog"),
+                                    content: const Text(
+                                        "Êtes-vous sûr de vouloir soumettre le formulaire ? "),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text("Cancel")),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            setState(() {
+                                              _loading = true;
+                                            });
+                                            Future.delayed(
+                                                const Duration(seconds: 2), () {
+                                              setState(() {
+                                                _loading = false;
+                                                _display = true;
+                                                _name = _nameConttroller.text;
+                                              });
+                                            });
+                                          },
+                                          child: const Text("Ok"))
+                                    ],
+                                  );
+                                });
+                          }
+                        },
+                        child: _loading
+                            ? const CircularProgressIndicator()
+                            : const Text("Valider")),
+                  ],
+                ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
