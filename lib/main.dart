@@ -270,9 +270,6 @@ class _HomeState extends State<Home> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
                     _display
                         ? Card(
                             child: Column(
@@ -283,9 +280,10 @@ class _HomeState extends State<Home> {
                                   title: RichText(
                                       text: TextSpan(children: [
                                     const TextSpan(
-                                      text: "Je m'appelle",
+                                      text: "Je m'appelle ",
                                       style: TextStyle(
-                                          color: Colors.black, fontSize: 18),
+                                    color: Colors.black,
+                                  ),
                                     ),
                                     TextSpan(
                                         text: _name,
@@ -310,8 +308,6 @@ class _HomeState extends State<Home> {
                             ],
                           ))
                         : const SizedBox(),
-                  ],
-                ),
               ],
             ),
           ),
